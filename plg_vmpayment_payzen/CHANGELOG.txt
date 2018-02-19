@@ -1,0 +1,20 @@
+2.0.3, 2017-01-16:
+- Bug fix: a warning occured on a successful payment relative to emptyCart() function.
+- Module structure reorganisation (API files).
+- Improve of translations.
+- Remove control over certificate format modified on the platform.
+
+2.0.2, 2016-06-01:
+- Adding German translations.
+
+2.0.1, 2015-03-05:
+- Bug fix: fatal error while redirecting to shop in Joomla 3.
+- Bug fix: relative to rounding amount transmitted to payment platform.
+- Correction of logo location.
+- Sending Joomla user ID as vads_cust_id to payment platform.
+
+1.1, 2015-01-19:
+- Bug fix: relative to signature calculation (problem due to apostrophes).
+
+1.0, 2015-01-14:
+- Module creation.
