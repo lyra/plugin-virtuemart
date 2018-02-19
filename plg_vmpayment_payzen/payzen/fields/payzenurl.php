@@ -1,10 +1,6 @@
 <?php
 /**
- * PayZen V2-Payment Module version 1.3.4 (revision 65175) for VirtueMart 2.x.
- *
- * Copyright (C) 2014 Lyra Network and contributors
- * Support contact : support@payzen.eu
- * Author link : http://www.lyra-network.com/
+ * PayZen V2-Payment Module version 2.0.3 for VirtueMart 3.x. Support contact : support@payzen.eu.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,30 +18,24 @@
  *
  * @category  payment
  * @package   payzen
- * @author    Lyra Network <supportvad@lyra-network.com>
- * @copyright 2014 Lyra Network and contributors
+ * @author    Lyra Network (http://www.lyra-network.com/)
+ * @copyright 2014-2016 Lyra Network and contributors
  * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html  GNU General Public License (GPL v2)
- * @version   1.3.4 (revision 65175)
-*/
-
-// check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
-
-/**
- * Renders a label element
  */
 
-class JElementPayzenLabel extends JElement {
-	/**
-	 * Element name
-	 *
-	 * @access protected
-	 * @var string
-	 */
-	var $_name = 'PayzenLabel';
+/* check to ensure this file is within the rest of the framework */
+defined('JPATH_BASE') or die();
 
-	function fetchElement($name, $value, &$node, $control_name) {
-		$class = ( $node->attributes('class') ? 'class="'.$node->attributes('class').'"' : 'class="text_area"');
-		return '<label for="'.$name.'"'.$class.'>'.$value.'</label>';
+jimport('joomla.form.formfield');
+
+/**
+ * Renders a URL element.
+ */
+class JFormFieldPayzenUrl extends JFormField {
+
+	var $type = 'PayzenUrl';
+
+	function getInput() {
+		return '<label for="' . $this->name . '">' . JURI::root () . $this->value . '</label>';
 	}
 }
