@@ -1,3 +1,9 @@
+2.1.0, 2018-02-12:
+- [multi]Added payment in installments feature to the plugin.
+- Improve plugin translations.
+- Improve plugin logs.
+- Update logos path to improve plugin compatibility with all VirtueMart 3.x versions.
+
 2.0.3, 2017-01-16:
 - Bug fix: a warning occured on a successful payment relative to emptyCart() function.
 - Module structure reorganisation (API files).
@@ -5,7 +11,7 @@
 - Remove control over certificate format modified on the platform.
 
 2.0.2, 2016-06-01:
-- Adding German translations.
+- Added German translations.
 
 2.0.1, 2015-03-05:
 - Bug fix: fatal error while redirecting to shop in Joomla 3.
