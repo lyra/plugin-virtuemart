@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <extension version="2.5" type="plugin" group="vmpayment" method="upgrade">
-	<name>VM - Payment, PayZen</name>
-	<creationDate>January 16 2016</creationDate>
+	<name>VM Payment - PayZen</name>
+	<creationDate>January 29 2018</creationDate>
 	<author>Lyra Network</author>
 	<authorUrl>http://www.lyra-network.com</authorUrl>
 	<authorEmail>support@payzen.eu</authorEmail>
 	<authorUrl>http://www.lyra-network.com</authorUrl>
-	<copyright>Copyright (C) 2015 - 2017 Lyra Network. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2015 - 2018 Lyra Network. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<version>2.0.3</version>
+	<version>2.1.0</version>
 	<description>
-		<![CDATA[PayZen is a multi bank payment provider developped by <a href="http://www.lyra-network.com" target="_blank">Lyra Network</a>.]]>
+		<![CDATA[This plugin enables you to setup your PayZen payment system.]]>
 	</description>
 
 	<files>
 		<filename plugin="payzen">payzen.php</filename>
 		<folder>payzen</folder>
-		<folder>installation_doc</folder>
 	</files>
 
 	<languages>
@@ -24,10 +23,6 @@
 		<language tag="fr-FR">language/fr-FR.plg_vmpayment_payzen.ini</language>
 		<language tag="de-DE">language/de-DE.plg_vmpayment_payzen.ini</language>
 	</languages>
-
-	<media folder="payzen/assets/images" destination="../images/stories/virtuemart/payment">
-		<filename>payzen.png</filename>
-	</media>
 
 	<vmconfig>
 		<fields name="params">
@@ -37,16 +32,16 @@
 
 				<field name="developed_by" type="payzenlabel" label="VMPAYMENT_PAYZEN_DEVELOPED_BY" default="&lt;a href=&quot;http://www.lyra-network.com/&quot; target=&quot;_blank&quot;&gt;Lyra network&lt;/a&gt;"/>
 				<field name="contact_email" type="payzenlabel" label="VMPAYMENT_PAYZEN_CONTACT_EMAIL" default="&lt;a href=&quot;mailto:support@payzen.eu&quot;&gt;support@payzen.eu&lt;/a&gt;"/>
-				<field name="contrib_version" type="payzenlabel" label="VMPAYMENT_PAYZEN_CONTRIB_VERSION" default="2.0.3"/>
+				<field name="contrib_version" type="payzenlabel" label="VMPAYMENT_PAYZEN_CONTRIB_VERSION" default="2.1.0"/>
 				<field name="gateway_version" type="payzenlabel" label="VMPAYMENT_PAYZEN_GATEWAY_VERSION" default="V2"/>
-				<field name="documentation" type="payzenlabel" label="VMPAYMENT_PAYZEN_DOC" default="plugins/vmpayment/payzen/installation_doc/Integration_PayZen_VirtueMart_3.x_v2.0.3.pdf"/>
+				<field name="documentation" type="payzenlabel" label="VMPAYMENT_PAYZEN_DOC" default="administrator/components/com_payzen/installation_doc/Integration_PayZen_VirtueMart_3.x_v2.1.0.pdf"/>
 
 				<field type="spacer" default="" level="level1"/>
 				<field class="level1" type="vmtitle" default="VMPAYMENT_PAYZEN_PAYMENT_MODULE_SETTINGS" />
 
-				<field name="payment_logos" type="vmfiles" label="VMPAYMENT_PAYZEN_LOGOS"
+				<field name="payment_logos" type="payzenfiles" label="VMPAYMENT_PAYZEN_LOGOS"
 						description="VMPAYMENT_PAYZEN_LOGOS_DESC"
-						directory="/images/stories/virtuemart/payment"
+						directory="/images/virtuemart/payment"
 						default="payzen.png" hide_default="1" hide_none="1"
 						stripext="0" exclude="^_"/>
 				<field name="debug" type="radio" default="0" label="VMPAYMENT_PAYZEN_DEBUG">

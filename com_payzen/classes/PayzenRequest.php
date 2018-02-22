@@ -1,26 +1,26 @@
 <?php
 /**
- * PayZen V2-Payment Module version 2.0.3 for VirtueMart 3.x. Support contact : support@payzen.eu.
+ * PayZen V2-Payment Module version 2.1.0 for VirtueMart 3.x. Support contact : support@payzen.eu.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
+ * @author    Lyra Network (http://www.lyra-network.com/)
+ * @copyright 2014-2017 Lyra Network and contributors
+ * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html  GNU General Public License (GPL v2)
  * @category  payment
  * @package   payzen
- * @author    Lyra Network (http://www.lyra-network.com/)
- * @copyright 2014-2016 Lyra Network and contributors
- * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html  GNU General Public License (GPL v2)
  */
 
 require_once 'PayzenApi.php';
@@ -74,12 +74,12 @@ if (! class_exists('PayzenRequest', false)) {
         private $redirectEnabled;
 
         /**
-         * SHA-1 authentication signature.
+         * Algo used to sign forms.
          *
          * @var string
          * @access private
          */
-        private $signature;
+        private $algo = PayzenApi::ALGO_SHA1;
 
         /**
          * The original data encoding.
@@ -130,6 +130,7 @@ if (! class_exists('PayzenRequest', false)) {
             $regex_mail = '#^[^@]+@[^@]+\.\w{2,4}$#u'; // TODO plus restrictif
             $regex_params = '#^([^&=]+=[^&=]*)?(&[^&=]+=[^&=]*)*$#u'; // name1=value1&name2=value2...
             $regex_ship_type = '#^RECLAIM_IN_SHOP|RELAY_POINT|RECLAIM_IN_STATION|PACKAGE_DELIVERY_COMPANY|ETICKET$#u';
+            $regex_payment_option = '#^[a-zA-Z0-9]{0,32}$|^COUNT=([1-9][0-9]{0,2})?;RATE=[0-9]{0,4}(\\.[0-9]{1,4})?;DESC=.{0,64};?$#';
 
             // defining all parameters and setting formats and default values
             $this->addField('signature', 'Signature', '#^[0-9a-f]{40}$#u', true);
@@ -173,6 +174,7 @@ if (! class_exists('PayzenRequest', false)) {
             $this->addField('vads_page_action', 'Page action', '#^PAYMENT$#u', true, 7);
             $this->addField('vads_payment_cards', 'Payment cards', '#^([A-Za-z0-9\-_]+;)*[A-Za-z0-9\-_]*$#u', false, 127);
             $this->addField('vads_payment_config', 'Payment config', $regex_payment_cfg, true);
+            $this->addField('vads_payment_option_code', 'Payment option to use', $regex_payment_option, false);
             $this->addField('vads_payment_src', 'Payment source', '#^$#u', false, 0);
             $this->addField('vads_redirect_error_message', 'Redirection error message', $ans255, false);
             $this->addField('vads_redirect_error_timeout', 'Redirection error timeout', $ans255, false);
@@ -336,6 +338,8 @@ if (! class_exists('PayzenRequest', false)) {
                 return $this->setPlatformUrl($value);
             } elseif ($name == 'vads_redirect_enabled') {
                 return $this->setRedirectEnabled($value);
+            } elseif ($name == 'vads_sign_algo') {
+                return $this->setSignAlgo($value);
             } elseif (key_exists($name, $this->requestParameters)) {
                 return $this->requestParameters[$name]->setValue($value);
             } else {
@@ -364,7 +368,6 @@ if (! class_exists('PayzenRequest', false)) {
                 // check parameters
                 if (is_numeric($total_in_cents) && $total_in_cents > $first_in_cents
                     && $total_in_cents > 0 && is_numeric($first_in_cents) && $first_in_cents > 0) {
-
                     // set value to payment_config
                     $payment_config = 'MULTI:first=' . $first_in_cents . ';count=' . $count . ';period=' . $period;
                     $result &= $this->set('amount', $total_in_cents);
@@ -394,8 +397,7 @@ if (! class_exists('PayzenRequest', false)) {
         /**
          * Enable/disable vads_redirect_* parameters.
          *
-         * @param mixed $enabled
-         *            false, 0, null, negative integer or 'false' to disable
+         * @param mixed $enabled false, 0, null, negative integer or 'false' to disable
          * @return boolean
          */
         public function setRedirectEnabled($enabled)
@@ -422,6 +424,22 @@ if (! class_exists('PayzenRequest', false)) {
             }
 
             return true;
+        }
+
+        /**
+         * Set signature algorithm.
+         *
+         * @param string $algo
+         * @return boolean
+         */
+        public function setSignAlgo($algo)
+        {
+            if (in_array($algo, PayzenApi::$SUPPORTED_ALGOS)) {
+                $this->algo = $algo;
+                return true;
+            }
+
+            return false;
         }
 
         /**
@@ -469,7 +487,7 @@ if (! class_exists('PayzenRequest', false)) {
          *
          * @return string|boolean
          */
-        public function getCertificate()
+        private function getCertificate()
         {
             switch ($this->requestParameters['vads_ctx_mode']->getValue()) {
                 case 'TEST':
@@ -486,23 +504,18 @@ if (! class_exists('PayzenRequest', false)) {
         /**
          * Generate signature from a list of PayzenField.
          *
-         * @param array[string][PayzenField] $fields
+         * @param array[string][PayzenField] $fields already filtered fields list
+         * @param bool $hashed
          * @return string
          */
-        private function generateSignature($fields = null, $hashed = true)
+        private function generateSignature($fields, $hashed = true)
         {
-            if (! is_array($fields)) {
-                $fields = $this->requestParameters;
-            }
-
             $params = array();
             foreach ($fields as $field) {
-                if ($field->isRequired() || $field->isFilled()) {
-                    $params[$field->getName()] = $field->getValue();
-                }
+                $params[$field->getName()] = $field->getValue();
             }
 
-            return PayzenApi::sign($params, $this->getCertificate(), $hashed);
+            return PayzenApi::sign($params, $this->getCertificate(), $this->algo, $hashed);
         }
 
         /**
