@@ -10,15 +10,14 @@
 
 defined('JPATH_BASE') or die();
 
-if (! class_exists('JFormFieldPayzenUrl')) {
-    require_once(rtrim(JPATH_ADMINISTRATOR, DS) . DS . 'components' . DS . 'com_payzen' . DS . 'plg_vmpaymentpayzen' . DS . 'fields' . DS . 'payzenurl.php');
+if (! class_exists('JFormFieldPayzenRadio')) {
+    require_once(rtrim(JPATH_ADMINISTRATOR, DS) . DS . 'components' . DS . 'com_payzen' . DS . 'plg_vmpaymentpayzen' . DS . 'fields' . DS . 'payzenradio.php');
 }
 
-
 /**
- * Renders a URL element.
+ * Renders a Radio element.
  */
-class JFormFieldPayzenMultiUrl extends JFormFieldPayzenUrl
+class JFormFieldPayzenMultiRadio extends JFormFieldPayzenRadio
 {
-    var $type = 'PayzenmultiUrl';
+    var $type = 'PayzenMultiRadio';
 }
