@@ -1,5 +1,12 @@
+2.2.0, 2020-08-18:
+- Enable signature algorithm selection (SHA-1 or HMAC-SHA-256).
+- Added Spanish translation.
+- Improve plugin translations.
+- [prodfaq] Fix notice about shifting the shop to production mode.
+- Display card brand user choice if any in backend order details.
+
 2.1.0, 2018-02-12:
-- [multi]Added payment in installments feature to the plugin.
+- [multi] Added payment in installments feature to the plugin.
 - Improve plugin translations.
 - Improve plugin logs.
 - Update logos path to improve plugin compatibility with all VirtueMart 3.x versions.
@@ -7,7 +14,7 @@
 2.0.3, 2017-01-16:
 - Bug fix: a warning occured on a successful payment relative to emptyCart() function.
 - Module structure reorganisation (API files).
-- Improve of translations.
+- Improve plugin translations.
 - Remove control over certificate format modified on the platform.
 
 2.0.2, 2016-06-01:

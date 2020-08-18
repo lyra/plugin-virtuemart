@@ -10,15 +10,14 @@
 
 defined('JPATH_BASE') or die();
 
-if (! class_exists('JFormFieldPayzenUrl')) {
-    require_once(rtrim(JPATH_ADMINISTRATOR, DS) . DS . 'components' . DS . 'com_payzen' . DS . 'plg_vmpaymentpayzen' . DS . 'fields' . DS . 'payzenurl.php');
+if (! class_exists('JFormFieldPayzenText')) {
+    require_once(rtrim(JPATH_ADMINISTRATOR, DS) . DS . 'components' . DS . 'com_payzen' . DS . 'plg_vmpaymentpayzen' . DS . 'fields' . DS . 'payzentext.php');
 }
 
-
 /**
- * Renders a URL element.
+ * Renders a Text element.
  */
-class JFormFieldPayzenMultiUrl extends JFormFieldPayzenUrl
+class JFormFieldPayzenMultiText extends JFormFieldPayzenText
 {
-    var $type = 'PayzenmultiUrl';
+    var $type = 'PayzenMultiText';
 }
