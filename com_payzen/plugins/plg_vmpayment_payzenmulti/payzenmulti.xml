@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<install version="1.5" type="plugin" group="vmpayment" method="upgrade">
+	<name>VM Payment - PayZen payment in installments</name>
+	<creationDate>Jul 16 2018</creationDate>
+	<author>Lyra Network</author>
+	<authorUrl>https://www.lyra.com</authorUrl>
+	<authorEmail>support@payzen.eu</authorEmail>
+	<authorUrl>https://www.lyra.com</authorUrl>
+	<copyright>Copyright (C) 2012 - 2020 Lyra Network. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<version>1.4.0</version>
+	<description>
+		<![CDATA[This plugin enables you to setup PayZen payment in installements system.]]>
+	</description>
+
+	<files>
+		<filename plugin="payzenmulti">payzenmulti.php</filename>
+		<folder>payzenmulti</folder>
+	</files>
+
+	<languages>
+		<language tag="en-GB">language/en-GB.plg_vmpayment_payzenmulti.ini</language>
+		<language tag="fr-FR">language/fr-FR.plg_vmpayment_payzenmulti.ini</language>
+		<language tag="de-DE">language/de-DE.plg_vmpayment_payzenmulti.ini</language>
+		<language tag="es-ES">language/es-ES.plg_vmpayment_payzenmulti.ini</language>
+	</languages>
+
+	<params addpath="/plugins/vmpayment/payzenmulti/elements" />
+	<params addpath="/plugins/vmpayment/payzenmulti/payzenmulti/elements" />
+
+	<params addpath="/administrator/components/com_virtuemart/elements">
+		<param default="VMPAYMENT_PAYZENMULTI_MODULE_WARN" type="payzenmultiwarn" />
+
+		<param type="spacer" default="" level="level1" />
+		<param class="level1" type="spacer" default="VMPAYMENT_PAYZENMULTI_MODULE_INFORMATION" />
+
+		<param name="developed_by" type="payzenmultilabel" label="VMPAYMENT_PAYZENMULTI_DEVELOPED_BY" default="&lt;a href=&quot;https://www.lyra.com/&quot; target=&quot;_blank&quot;&gt;Lyra Network&lt;/a&gt;" />
+		<param name="contact_email" type="payzenmultilabel" label="VMPAYMENT_PAYZENMULTI_CONTACT_EMAIL" default="&lt;a href=&quot;mailto:support@payzen.eu&quot;&gt;support@payzen.eu&lt;/a&gt;" />
+		<param name="contrib_version" type="payzenmultilabel" label="VMPAYMENT_PAYZENMULTI_CONTRIB_VERSION" default="1.4.0" />
+		<param name="gateway_version" type="payzenmultilabel" label="VMPAYMENT_PAYZENMULTI_GATEWAY_VERSION" default="V2" />
+		<param name="documentation" type="payzenmultilabel" label="VMPAYMENT_PAYZENMULTI_DOC" />
+
+		<param type="spacer" default="" level="level1" />
+		<param class="level1" type="spacer" default="VMPAYMENT_PAYZENMULTI_PAYMENT_MODULE_SETTINGS" />
+
+		<param name="payment_logos" type="vmfiles" label="VMPAYMENT_PAYZENMULTI_LOGOS"
+				description="VMPAYMENT_PAYZENMULTI_LOGOS_DESC"
+				directory="images/stories/virtuemart/payment"
+				default="payzenmulti.png" hide_default="1" hide_none="1"
+				stripext="0" exclude="^_" />
+		<param name="debug" type="radio" default="0" label="VMPAYMENT_PAYZENMULTI_DEBUG" description="VMPAYMENT_PAYZENMULTI_DEBUG_DESC">
+			<option value="0">VMPAYMENT_PAYZENMULTI_NO</option>
+			<option value="1">VMPAYMENT_PAYZENMULTI_YES</option>
+		</param>
+		<param name="cost_per_transaction" type="text" label="VMPAYMENT_PAYZENMULTI_COST_PER_TRANSACTION" description="VMPAYMENT_PAYZENMULTI_COST_PER_TRANSACTION_DESC" />
+		<param name="cost_percent_total" type="text" label="VMPAYMENT_PAYZENMULTI_COST_PERCENT_TOTAL" description="VMPAYMENT_PAYZENMULTI_COST_PERCENT_TOTAL_DESC" />
+		<param name="tax_id" type="vmtaxes" scope="com_virtuemart" label="VMPAYMENT_PAYZENMULTI_TAX" description="VMPAYMENT_PAYZENMULTI_TAX_DESC" />
+
+		<param type="spacer" default="" level="level1" />
+		<param class="level1" type="spacer" default="VMPAYMENT_PAYZENMULTI_PAYMENT_GATEWAY_ACCESS" />
+
+		<param name="site_id" type="payzenmultitext" size="10" default="12345678" label="VMPAYMENT_PAYZENMULTI_SITE_ID" description="VMPAYMENT_PAYZENMULTI_SITE_ID_DESC" autocomplete="off" />
+		<param name="key_test" type="payzenmultitext" size="20" default="1111111111111111" label="VMPAYMENT_PAYZENMULTI_TEST_KEY" description="VMPAYMENT_PAYZENMULTI_TEST_KEY_DESC" autocomplete="off" />
+		<param name="key_prod" type="payzenmultitext" size="20" default="2222222222222222" label="VMPAYMENT_PAYZENMULTI_PROD_KEY" description="VMPAYMENT_PAYZENMULTI_PROD_KEY_DESC" autocomplete="off" />
+		<param name="ctx_mode" type="payzenmultiradio" default="TEST" label="VMPAYMENT_PAYZENMULTI_CTX_MODE" description="VMPAYMENT_PAYZENMULTI_CTX_MODE_DESC">
+			<option value="TEST">VMPAYMENT_PAYZENMULTI_TEST</option>
+			<option value="PRODUCTION">VMPAYMENT_PAYZENMULTI_PRODUCTION</option>
+		</param>
+		<param name="sign_algo" type="payzenmultiradio" default="SHA-256" label="VMPAYMENT_PAYZENMULTI_SIGN_ALGO" description="VMPAYMENT_PAYZENMULTI_SIGN_ALGO_DESC">
+			<option value="SHA-1">SHA-1</option>
+			<option value="SHA-256">HMAC-SHA-256</option>
+		</param>
+		<param name="silent_url" type="payzenmultiurl" label="VMPAYMENT_PAYZENMULTI_URL_CHECK" default="index.php?option=com_virtuemart&amp;view=pluginresponse&amp;task=pluginnotification&amp;tmpl=component" description="VMPAYMENT_PAYZENMULTI_URL_CHECK_DESC" editable="false" />
+		<param name="platform_url" type="text" size="50" default="https://secure.payzen.eu/vads-payment/" label="VMPAYMENT_PAYZENMULTI_PLATFORM_URL" description="VMPAYMENT_PAYZENMULTI_PLATFORM_URL_DESC" />
+
+		<param type="spacer" default="" level="level1" />
+		<param class="level1" type="spacer" default="VMPAYMENT_PAYZENMULTI_PAYMENT_PAGE" />
+
+		<param name="language" type="payzenmultilist" default="fr" label="VMPAYMENT_PAYZENMULTI_LANGUAGE" description="VMPAYMENT_PAYZENMULTI_LANGUAGE_DESC" /> 
+		<param name="available_languages" type="payzenmultilist" multiple="multiple" default="" style="width: 300px;" label="VMPAYMENT_PAYZENMULTI_AVAILABLES_LANGUAGES" size= "8" description="VMPAYMENT_PAYZENMULTI_AVAILABLES_LANGUAGES_DESC" /> 
+		<param name="capture_delay" type="text" size="10" default="" label="VMPAYMENT_PAYZENMULTI_CAPTURE_DELAY" description="VMPAYMENT_PAYZENMULTI_CAPTURE_DELAY_DESC" />
+		<param name="validation_mode" type="list" default="" label="VMPAYMENT_PAYZENMULTI_VALIDATION_MODE" description="VMPAYMENT_PAYZENMULTI_VALIDATION_MODE_DESC">
+			<option value="">VMPAYMENT_PAYZENMULTI_DEFAULT</option>
+			<option value="0">VMPAYMENT_PAYZENMULTI_AUTOMATIC</option>
+			<option value="1">VMPAYMENT_PAYZENMULTI_MANUAL</option>
+		</param>
+		<param name="payment_cards" type="payzenmultilist" multiple="multiple" default="" label="VMPAYMENT_PAYZENMULTI_PAYMENT_CARDS" style="width: 300px;" description="VMPAYMENT_PAYZENMULTI_PAYMENT_CARDS_DESC" />
+
+		<param type="spacer" default="" level="level1" />
+		<param class="level1" type="spacer" default="VMPAYMENT_PAYZENMULTI_SELECTIVE_3DS" />
+
+		<param name="threeds_min_amount" type="text" size="10" default="" label="VMPAYMENT_PAYZENMULTI_THREEDS_MIN_AMOUNT" description="VMPAYMENT_PAYZENMULTI_THREEDS_MIN_AMOUNT_DESC" />
+
+		<param type="spacer" default="" level="level1" />
+		<param class="level1" type="spacer" default="VMPAYMENT_PAYZENMULTI_MULTI_OPTIONS" />
+
+		<param name="first" type="text" size="10" default="" label="VMPAYMENT_PAYZENMULTI_FIRST" description="VMPAYMENT_PAYZENMULTI_FIRST_DESC" />
+		<param name="count" type="text" size="10" default="3" label="VMPAYMENT_PAYZENMULTI_COUNT" description="VMPAYMENT_PAYZENMULTI_COUNT_DESC" />
+		<param name="period" type="text" size="10" default="30" label="VMPAYMENT_PAYZENMULTI_PERIOD" description="VMPAYMENT_PAYZENMULTI_PERIOD_DESC" />
+
+		<param type="spacer" default="" level="level1" />
+		<param class="level1" type="spacer" default="VMPAYMENT_PAYZENMULTI_AMOUNT_RESTRICTIONS" />
+
+		<param name="min_amount" type="text" size="10" default="" label="VMPAYMENT_PAYZENMULTI_AMOUNT_MIN" description="VMPAYMENT_PAYZENMULTI_AMOUNT_MIN_DESC" />
+		<param name="max_amount" type="text" size="10" default="" label="VMPAYMENT_PAYZENMULTI_AMOUNT_MAX" description="VMPAYMENT_PAYZENMULTI_AMOUNT_MAX_DESC" />
+
+		<param type="spacer" default="" level="level1" />
+		<param class="level1" type="spacer" default="VMPAYMENT_PAYZENMULTI_RETURN_OPTIONS" />
+
+		<param name="redirect_enabled" type="radio" default="0" label="VMPAYMENT_PAYZENMULTI_REDIRECT_ENABLED" description="VMPAYMENT_PAYZENMULTI_REDIRECT_ENABLED_DESC">
+			<option value="0">VMPAYMENT_PAYZENMULTI_NO</option>
+			<option value="1">VMPAYMENT_PAYZENMULTI_YES</option>
+		</param>
+		<param name="return_mode" type="list" default="GET" label="VMPAYMENT_PAYZENMULTI_RETURN_MODE" description="VMPAYMENT_PAYZENMULTI_RETURN_MODE_DESC">
+			<option value="GET">GET</option>
+			<option value="POST">POST</option>
+		</param>
+		<param name="redirect_success_timeout" type="text" size="10" default="5" label="VMPAYMENT_PAYZENMULTI_REDIRECT_SUCCESS_TIMEOUT" description="VMPAYMENT_PAYZENMULTI_REDIRECT_SUCCESS_TIMEOUT_DESC" />
+		<param name="redirect_success_message" class="payzenmultimessage" type="payzenmultitext" size="50" default="VMPAYMENT_PAYZENMULTI_REDIRECT_DEFAULT_MESSAGE" label="VMPAYMENT_PAYZENMULTI_REDIRECT_SUCCESS_MESSAGE" description="VMPAYMENT_PAYZENMULTI_REDIRECT_SUCCESS_MESSAGE_DESC" />
+		<param name="redirect_error_timeout" type="text" size="10" default="5" label="VMPAYMENT_PAYZENMULTI_REDIRECT_ERROR_TIMEOUT" description="VMPAYMENT_PAYZENMULTI_REDIRECT_ERROR_TIMEOUT_DESC" />
+		<param name="redirect_error_message" class="payzenmultimessage" type="payzenmultitext" size="50" default="VMPAYMENT_PAYZENMULTI_REDIRECT_DEFAULT_MESSAGE" label="VMPAYMENT_PAYZENMULTI_REDIRECT_ERROR_MESSAGE" description="VMPAYMENT_PAYZENMULTI_REDIRECT_ERROR_MESSAGE_DESC" />
+		<param name="order_success_status" type="vmorderstate" scope="com_virtuemart" default="C" label="VMPAYMENT_PAYZENMULTI_ORDER_SUCCESS_STATUS" description="VMPAYMENT_PAYZENMULTI_ORDER_SUCCESS_STATUS_DESC" />
+		<param name="order_failure_status" type="vmorderstate" scope="com_virtuemart" default="X" label="VMPAYMENT_PAYZENMULTI_ORDER_FAILURE_STATUS" description="VMPAYMENT_PAYZENMULTI_ORDER_FAILURE_STATUS_DESC" />
+	</params>
+</install>
