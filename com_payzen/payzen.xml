@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="1.5" method="upgrade">
+	<name>payzen</name>
+	<creationDate>Nov 16 2020</creationDate>
+	<author>Lyra Network</author>
+	<authorUrl>https://www.lyra.com</authorUrl>
+	<authorEmail>support@payzen.eu</authorEmail>
+	<authorUrl>https://www.lyra.com</authorUrl>
+	<copyright>Copyright (C) 2012 - 2020 Lyra Network. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<version>1.4.0</version>
+	<description>This component enables you to setup PayZen credit card payment in one time and payment in installments plugins for VirtueMart.</description>
+
+	<scriptfile>script.install.php</scriptfile>
+
+	<!-- custom installer for 1.5 -->
+	<installfile>script.install.php</installfile>
+
+	<administration>
+		<files>
+			<folder>plugins/plg_vmpayment_payzen</folder>
+			<folder>plugins/plg_vmpayment_payzenmulti</folder>
+			<folder>classes</folder>
+			<folder>installation_doc</folder>
+			<filename>CHANGELOG.md</filename>
+			<filename>COPYING.md</filename>
+			<filename>README.md</filename>
+			<filename>LICENSE.txt</filename>
+		</files>
+	</administration>
+</extension>
