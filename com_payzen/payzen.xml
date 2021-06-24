@@ -12,15 +12,15 @@
 
 <extension type="component" version="2.5" method="upgrade">
     <name>payzen</name>
-    <creationDate>January 29 2018</creationDate>
+    <creationDate>June 24 2021</creationDate>
     <author>Lyra Network</author>
-    <authorUrl>http://www.lyra.com</authorUrl>
-    <authorEmail>support@payzen.eu</authorEmail>
-    <authorUrl>http://www.lyra.com</authorUrl>
-    <copyright>Copyright (C) 2015 - 2020 Lyra Network. All rights reserved.</copyright>
+    <authorUrl>https://www.lyra.com</authorUrl>
+    <authorEmail><![CDATA[support@payzen.eu]]></authorEmail>
+    <authorUrl>https://www.lyra.com</authorUrl>
+    <copyright>Copyright (C) 2015 - 2021 Lyra Network. All rights reserved.</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-    <version>2.2.0</version>
-    <description>This component enables you to setup PayZen credit card payment in one time and payment in installments plugins for VirtueMart.</description>
+    <version>2.2.1</version>
+    <description><![CDATA[This component enables you to setup PayZen credit card payment in one time and payment in installments plugins for VirtueMart.]]></description>
 
     <scriptfile>script.install.php</scriptfile>
     <administration>

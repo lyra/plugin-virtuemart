@@ -21,6 +21,8 @@ class JFormFieldPayzenLabel extends JFormField
 
     function getInput()
     {
+        $html = $this->value;
+
         if ($this->fieldname == 'documentation') {
             // Get documentation links.
             $docs = '';
@@ -28,10 +30,10 @@ class JFormFieldPayzenLabel extends JFormField
 
             if (! empty($filenames)) {
                 $languages = array(
-                        'fr' => 'Français',
-                        'en' => 'English',
-                        'es' => 'Español'
-                        // Complete when other languages are managed.
+                    'fr' => 'Français',
+                    'en' => 'English',
+                    'es' => 'Español'
+                     // Complete when other languages are managed.
                 );
 
                 $first = true;
@@ -41,16 +43,22 @@ class JFormFieldPayzenLabel extends JFormField
 
                     $docs .= $first ? '<a style="' : '<a style="margin-left: 10px;';
                     $docs .= ' text-decoration: none; text-transform: uppercase; color: red;" href="' . JURI::root() .
-                    DS . 'administrator' . DS . 'components' . DS . 'com_payzen' . DS . 'installation_doc' . DS .
-                    $base_filename . '.pdf" target="_blank">' . $languages[$lang] . '</a>';
+                        'administrator/components/com_payzen/installation_doc/' .
+                        $base_filename . '.pdf" target="_blank">' . $languages[$lang] . '</a>';
                     $first = false;
                 }
             }
 
-            return '<label>' . $docs . '</label>';
+            $html = $docs;
+        } elseif($this->fieldname == 'contact_email') {
+            if (! class_exists('PayzenApi')) {
+                require_once(rtrim(JPATH_ADMINISTRATOR, DS) . DS . 'components' . DS . 'com_payzen' . DS . 'classes' . DS . 'PayzenApi.php');
+            }
+
+            $html = PayzenApi::formatSupportEmails('support@payzen.eu');
         }
 
-        return '<label>' . $this->value . '</label>';
+        return '<label>' . $html . '</label>';
     }
 
     protected function getLayoutData()
@@ -59,7 +67,7 @@ class JFormFieldPayzenLabel extends JFormField
             $filenames = glob(rtrim(JPATH_ADMINISTRATOR, DS) . DS . 'components' . DS . 'com_payzen' . DS . 'installation_doc/${doc.pattern}');
 
             if (empty($filenames)) {
-                return "";
+                return '';
             }
         }
 

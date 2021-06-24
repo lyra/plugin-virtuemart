@@ -11,7 +11,7 @@
 defined('JPATH_BASE') or die();
 
 if (! class_exists('JFormFieldPayzenUrl')) {
-    require_once(rtrim(JPATH_ADMINISTRATOR, DS) . DS . 'components' . DS . 'com_payzen' . DS . 'plg_vmpaymentpayzen' . DS . 'fields' . DS . 'payzenurl.php');
+    require_once(rtrim(JPATH_PLUGINS, DS) . DS . 'vmpayment' . DS . 'payzen' . DS . 'payzen'. DS . 'fields' . DS . 'payzenurl.php');
 }
 
 

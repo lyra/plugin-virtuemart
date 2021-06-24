@@ -11,7 +11,7 @@
 defined('JPATH_BASE') or die();
 
 if (! class_exists('JFormFieldPayzenList')) {
-    require_once(rtrim(JPATH_ADMINISTRATOR, DS) . DS . 'components' . DS . 'com_payzen' . DS . 'plg_vmpaymentpayzen' . DS . 'fields' . DS . 'payzenlist.php');
+    require_once(rtrim(JPATH_PLUGINS, DS) . DS . 'vmpayment' . DS . 'payzen' . DS . 'payzen'. DS . 'fields' . DS . 'payzenlist.php');
 }
 
 /**
@@ -20,24 +20,24 @@ if (! class_exists('JFormFieldPayzenList')) {
 class JFormFieldPayzenMultiList extends JFormFieldPayzenList
 {
     var $type = 'PayzenmultiList';
-    var $identifier = "payzenmulti";
+    var $identifier = 'payzenmulti';
 
     function _getAvailableCards()
     {
         $multi_cards = array(
-                'AMEX',
-                'CB',
-                'DINERS',
-                'DISCOVER',
-                'E-CARTEBLEUE',
-                'JCB',
-                'MASTERCARD',
-                'PRV_BDP',
-                'PRV_BDT',
-                'PRV_OPT',
-                'PRV_SOC',
-                'VISA',
-                'VISA_ELECTRON'
+            'AMEX',
+            'CB',
+            'DINERS',
+            'DISCOVER',
+            'E-CARTEBLEUE',
+            'JCB',
+            'MASTERCARD',
+            'PRV_BDP',
+            'PRV_BDT',
+            'PRV_OPT',
+            'PRV_SOC',
+            'VISA',
+            'VISA_ELECTRON'
         );
 
         $all_cards = PayzenApi::getSupportedCardTypes();

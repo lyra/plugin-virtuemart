@@ -11,7 +11,7 @@
 defined('JPATH_BASE') or die();
 
 if (! class_exists('JFormFieldPayzenRadio')) {
-    require_once(rtrim(JPATH_ADMINISTRATOR, DS) . DS . 'components' . DS . 'com_payzen' . DS . 'plg_vmpaymentpayzen' . DS . 'fields' . DS . 'payzenradio.php');
+    require_once(rtrim(JPATH_PLUGINS, DS) . DS . 'vmpayment' . DS . 'payzen' . DS . 'payzen'. DS . 'fields' . DS . 'payzenradio.php');
 }
 
 /**

@@ -11,15 +11,15 @@
 -->
 
 <extension version="2.5" type="plugin" group="vmpayment" method="upgrade">
-    <name>VM Payment - PayZen payment in installments</name>
-    <creationDate>January 29 2018</creationDate>
+    <name><![CDATA[VM Payment - PayZen payment in installments]]></name>
+    <creationDate>June 24 2021</creationDate>
     <author>Lyra Network</author>
-    <authorUrl>http://www.lyra.com</authorUrl>
-    <authorEmail>support@payzen.eu</authorEmail>
-    <authorUrl>http://www.lyra.com</authorUrl>
-    <copyright>Copyright (C) 2015 - 2020 Lyra Network. All rights reserved.</copyright>
+    <authorUrl>https://www.lyra.com</authorUrl>
+    <authorEmail><![CDATA[support@payzen.eu]]></authorEmail>
+    <authorUrl>https://www.lyra.com</authorUrl>
+    <copyright>Copyright (C) 2015 - 2021 Lyra Network. All rights reserved.</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-    <version>2.2.0</version>
+    <version>2.2.1</version>
     <description>
         <![CDATA[This plugin enables you to setup PayZen payment in installements system.]]>
     </description>
@@ -43,9 +43,9 @@
                 <field type="spacer" default="" level="level1" />
                 <field class="level1" type="vmtitle" default="VMPAYMENT_PAYZENMULTI_MODULE_INFORMATION" />
 
-                <field name="developed_by" type="payzenmultilabel" label="VMPAYMENT_PAYZENMULTI_DEVELOPED_BY" default="&lt;a href=&quot;http://www.lyra.com/&quot; target=&quot;_blank&quot;&gt;Lyra Network&lt;/a&gt;" />
-                <field name="contact_email" type="payzenmultilabel" label="VMPAYMENT_PAYZENMULTI_CONTACT_EMAIL" default="&lt;a href=&quot;mailto:support@payzen.eu&quot;&gt;support@payzen.eu&lt;/a&gt;" />
-                <field name="contrib_version" type="payzenmultilabel" label="VMPAYMENT_PAYZENMULTI_CONTRIB_VERSION" default="2.2.0" />
+                <field name="developed_by" type="payzenmultilabel" label="VMPAYMENT_PAYZENMULTI_DEVELOPED_BY" default="&lt;a href=&quot;https://www.lyra.com/&quot; target=&quot;_blank&quot;&gt;Lyra Network&lt;/a&gt;" />
+                <field name="contact_email" type="payzenmultilabel" label="VMPAYMENT_PAYZENMULTI_CONTACT_EMAIL" default="" />
+                <field name="contrib_version" type="payzenmultilabel" label="VMPAYMENT_PAYZENMULTI_CONTRIB_VERSION" default="2.2.1" />
                 <field name="gateway_version" type="payzenmultilabel" label="VMPAYMENT_PAYZENMULTI_GATEWAY_VERSION" default="V2" />
                 <field name="documentation" type="payzenmultilabel" label="VMPAYMENT_PAYZENMULTI_DOC" default="" />
 
