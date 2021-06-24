@@ -10,48 +10,52 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class com_payzenInstallerScript
-{
-    static $plugin_features = array(
-        'qualif' => false,
-        'prodfaq' => true,
-        'shatwo' => true,
-        'restrictmulti' => false,
-
-        'multi' => true
-    );
-
-    function install()
+if (! class_exists('com_payzenInstallerScript')) {
+    class com_payzenInstallerScript
     {
-        defined('DS') or define('DS', DIRECTORY_SEPARATOR);
+        static $plugin_features = array(
+            'qualif' => false,
+            'prodfaq' => true,
+            'shatwo' => true,
+            'restrictmulti' => false,
 
-        $installer = new JInstaller();
+            'multi' => true
+        );
 
-        $installer->install(realpath(dirname(__FILE__)) . DS . 'plg_vmpayment_payzen');
+        function install()
+        {
+            defined('DS') or define('DS', DIRECTORY_SEPARATOR);
 
-        if (self::$plugin_features['multi']) {
-            $installer->install(realpath(dirname(__FILE__)) . DS . 'plg_vmpayment_payzenmulti');
-        }
+            $installer = new JInstaller();
 
-        $src = JPATH_ROOT . DS . 'administrator' . DS . 'components' . DS . 'com_payzen';
-        $dst = JPATH_ROOT . DS . 'images' . DS . 'virtuemart' . DS . 'payment';
+            $installer->install(realpath(dirname(__FILE__)) . DS . 'plg_vmpayment_payzen');
 
-        require(JPATH_ROOT . '/administrator/components/com_virtuemart/version.php');
-        if (version_compare(vmVersion::$RELEASE, '3.2.1', '<')) {
-            $dst = JPATH_ROOT . DS . 'images' . DS . 'stories' . DS . 'virtuemart' . DS . 'payment';
-        }
+            if (self::$plugin_features['multi']) {
+                $installer->install(realpath(dirname(__FILE__)) . DS . 'plg_vmpayment_payzenmulti');
+            }
 
-        JFile::copy($src . DS . 'plg_vmpayment_payzen' . DS . 'payzen' . DS . 'assets' . DS . 'images' . DS . 'payzen.png', $dst . DS . 'payzen.png');
+            $src = JPATH_ROOT . DS . 'administrator' . DS . 'components' . DS . 'com_payzen';
+            $dst = JPATH_ROOT . DS . 'images' . DS . 'virtuemart' . DS . 'payment';
 
-        if (self::$plugin_features['multi']) {
-            JFile::copy($src . DS . 'plg_vmpayment_payzenmulti' . DS . 'payzenmulti' . DS . 'assets' . DS . 'images' . DS . 'payzenmulti.png', $dst . DS . 'payzenmulti.png');
+            require(JPATH_ROOT . '/administrator/components/com_virtuemart/version.php');
+            if (version_compare(vmVersion::$RELEASE, '3.2.1', '<')) {
+                $dst = JPATH_ROOT . DS . 'images' . DS . 'stories' . DS . 'virtuemart' . DS . 'payment';
+            }
+
+            JFile::copy($src . DS . 'plg_vmpayment_payzen' . DS . 'payzen' . DS . 'assets' . DS . 'images' . DS . 'payzen.png', $dst . DS . 'payzen.png');
+
+            if (self::$plugin_features['multi']) {
+                JFile::copy($src . DS . 'plg_vmpayment_payzenmulti' . DS . 'payzenmulti' . DS . 'assets' . DS . 'images' . DS . 'payzenmulti.png', $dst . DS . 'payzenmulti.png');
+            }
         }
     }
 }
 
 // Joomla 1.5.
-function com_install()
-{
-    $installClass = new com_payzenInstallerScript();
-    $installClass->install();
+if (function_exists('com_install')) {
+    function com_install()
+    {
+        $installClass = new com_payzenInstallerScript();
+        $installClass->install();
+    }
 }

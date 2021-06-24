@@ -18,9 +18,10 @@ class plgVMPaymentPayzen extends vmPSPlugin
 {
     // Instance of class.
     public static $_this = false;
-    private $method_identifier = "payzen";
-    private $plugin_features;
-    private $logo = 'payzen.png';
+
+    protected $method_identifier = 'payzen';
+    protected $plugin_features;
+    protected $logo = 'payzen.png';
 
     function __construct(& $subject, $config)
     {
@@ -53,7 +54,7 @@ class plgVMPaymentPayzen extends vmPSPlugin
 
     function getTableSQLFields()
     {
-        $SQLfields = array(
+        return array(
             'id'                                                               => 'int(11) UNSIGNED NOT NULL AUTO_INCREMENT',
             'virtuemart_order_id'                                              => 'int(1) UNSIGNED',
             'order_number'                                                     => 'char(64)',
@@ -78,8 +79,6 @@ class plgVMPaymentPayzen extends vmPSPlugin
             $this->method_identifier . '_response_expiry_month'                => 'char(2)',
             $this->method_identifier . '_response_expiry_year'                 => 'char(4)'
         );
-
-        return $SQLfields;
     }
 
     function getCosts(VirtueMartCart $cart, $method, $cart_prices)
@@ -104,10 +103,8 @@ class plgVMPaymentPayzen extends vmPSPlugin
     {
         $this->convert($method);
         $amount = $cart_prices['salesPrice'];
-        $amount_cond = (($amount >= $method->min_amount && $amount <= $method->max_amount)
+        return (($amount >= $method->min_amount && $amount <= $method->max_amount)
             || ($amount >= $method->min_amount && empty($method->max_amount)));
-
-        return $amount_cond;
     }
 
     function convert($method)
@@ -204,7 +201,7 @@ class plgVMPaymentPayzen extends vmPSPlugin
         $available_languages = ! is_array($available_languages) ? $available_languages : (in_array('', $available_languages) ? '' : implode(';', $available_languages));
         $request->set('available_languages', $available_languages);
 
-        $request->set('contrib', 'VirtueMart_3.x_2.2.0/' . JVERSION . '_' . vmVersion::$RELEASE . '/' . PHP_VERSION);
+        $request->set('contrib', 'VirtueMart_3.x_2.2.1/' . JVERSION . '_' . vmVersion::$RELEASE . '/' . PayzenApi::shortPhpVersion());
 
         // Set customer info.
         $usrBT = $order['details']['BT'];
@@ -512,12 +509,12 @@ class plgVMPaymentPayzen extends vmPSPlugin
                 $new_status = $method->order_success_status;
 
                 $this->logInfo('plgVmOnPaymentNotification -- payment process OK, ' . $amount . ' paid for order ' . $payzen_response->get('order_id') . ', new status ' . $new_status, 'message');
-                echo($payzen_response->getOutputForGateway('payment_ok'));
+                echo $payzen_response->getOutputForGateway('payment_ok');
             } else {
                 $new_status = $method->order_failure_status;
 
                 $this->logInfo('plgVmOnPaymentNotification -- payment process error ' . $payzen_response->getLogMessage() . ', new status ' . $new_status, 'error');
-                echo($payzen_response->getOutputForGateway('payment_ko'));
+                echo $payzen_response->getOutputForGateway('payment_ko');
             }
 
             // Save platform response.
@@ -525,9 +522,9 @@ class plgVMPaymentPayzen extends vmPSPlugin
         } else {
             // Order already processed.
             if ($payzen_response->isAcceptedPayment()) {
-                echo($payzen_response->getOutputForGateway('payment_ok_already_done'));
+                echo $payzen_response->getOutputForGateway('payment_ok_already_done');
             } else {
-                echo($payzen_response->getOutputForGateway('payment_ko_on_order_ok'));
+                echo $payzen_response->getOutputForGateway('payment_ko_on_order_ok');
             }
         }
 
@@ -631,7 +628,7 @@ class plgVMPaymentPayzen extends vmPSPlugin
     {
         $db = JFactory::getDBO();
         $q = 'SELECT ' . $this->_tablepkey . ' FROM `' . $this->_tablename . '` '
-        . 'WHERE `virtuemart_order_id` = ' . $virtuemart_order_id;
+            . 'WHERE `virtuemart_order_id` = ' . $virtuemart_order_id;
         $db->setQuery($q);
 
         if (! ($pkey = $db->loadResult())) {

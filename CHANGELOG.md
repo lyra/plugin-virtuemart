@@ -1,3 +1,8 @@
+2.2.1, 2021-06-24:
+- Send the relevant part of the current PHP version in vads_contrib field.
+- Improve support e-mail display.
+- Bug fix: relative to installation script.
+
 2.2.0, 2020-08-18:
 - Enable signature algorithm selection (SHA-1 or HMAC-SHA-256).
 - Added Spanish translation.
