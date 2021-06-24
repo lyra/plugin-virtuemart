@@ -95,7 +95,7 @@ if (! class_exists('PayzenResponse', false)) {
          */
         public function __construct($params, $ctx_mode, $key_test, $key_prod, $algo = PayzenApi::ALGO_SHA1)
         {
-            $this->rawResponse = PayzenApi::uncharm($params);
+            $this->rawResponse = $params;
             $this->certificate = trim(($ctx_mode == 'PRODUCTION') ? $key_prod : $key_test);
 
             if (in_array($algo, PayzenApi::$SUPPORTED_ALGOS)) {
@@ -227,12 +227,14 @@ if (! class_exists('PayzenResponse', false)) {
          * @param string $name
          * @return string
          */
-        public function get($name)
+        public function get($name, $hasPrefix = true)
         {
-            // Manage shortcut notations by adding 'vads_'.
-            $name = (substr($name, 0, 5) != 'vads_') ? 'vads_' . $name : $name;
+            if ($hasPrefix) {
+                // Manage shortcut notations by adding 'vads_' prefix.
+                $name = (substr($name, 0, 5) != 'vads_') ? 'vads_' . $name : $name;
+            }
 
-            return @$this->rawResponse[$name];
+            return array_key_exists($name, $this->rawResponse) ? $this->rawResponse[$name] : null;
         }
 
         /**
@@ -251,7 +253,7 @@ if (! class_exists('PayzenResponse', false)) {
          */
         public function getSignature()
         {
-            return @$this->rawResponse['signature'];
+            return $this->get('signature', false);
         }
 
         /**

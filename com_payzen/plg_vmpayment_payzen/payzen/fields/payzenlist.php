@@ -18,16 +18,11 @@ JFormHelper::loadFieldClass('filelist');
 class JFormFieldPayzenList extends JFormFieldList
 {
     var $type = 'PayzenList';
-    var $identifier = "payzen";
+    var $identifier = 'payzen';
 
     function getOptions()
     {
         if (! class_exists('PayzenApi')) {
-            $plugin_path = JPATH_ROOT . DS . 'plugins' . DS . 'vmpayment';
-            if (version_compare(JVERSION, '1.6.0', 'ge')) {
-                $plugin_path .= DS . $this->identifier;
-            }
-
             require_once(rtrim(JPATH_ADMINISTRATOR, DS) . DS . 'components' . DS . 'com_payzen' . DS . 'classes' . DS . 'PayzenApi.php');
         }
 

@@ -11,14 +11,14 @@
 defined('_JEXEC') or die('Restricted access');
 
 if (! class_exists('plgVMPaymentPayzen')) {
-    require_once(rtrim(JPATH_ADMINISTRATOR, DS) . DS . 'components' . DS . 'com_payzen' . DS . 'plg_vmpaymentpayzen' . DS . 'payzen.php');
+    require_once(rtrim(JPATH_PLUGINS, DS) . DS . 'vmpayment' . DS . 'payzen' . DS . 'payzen.php');
 }
 
 class plgVMPaymentPayzenMulti extends plgVMPaymentPayzen
 {
-    private $method_identifier = "payzenmulti";
-    private $order_total = '';
-    private $logo = 'payzenmulti.png';
+    protected $method_identifier = "payzenmulti";
+    protected $order_total = '';
+    protected $logo = 'payzenmulti.png';
 
     /**
      * Reimplementation of vmPaymentPlugin::checkPaymentConditions()
