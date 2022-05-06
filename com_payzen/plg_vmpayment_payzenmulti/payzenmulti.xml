@@ -19,7 +19,7 @@
     <authorUrl>https://www.lyra.com</authorUrl>
     <copyright>Copyright (C) 2015 - 2021 Lyra Network. All rights reserved.</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-    <version>2.2.1</version>
+    <version>2.2.2</version>
     <description>
         <![CDATA[This plugin enables you to setup PayZen payment in installements system.]]>
     </description>
@@ -45,7 +45,7 @@
 
                 <field name="developed_by" type="payzenmultilabel" label="VMPAYMENT_PAYZENMULTI_DEVELOPED_BY" default="&lt;a href=&quot;https://www.lyra.com/&quot; target=&quot;_blank&quot;&gt;Lyra Network&lt;/a&gt;" />
                 <field name="contact_email" type="payzenmultilabel" label="VMPAYMENT_PAYZENMULTI_CONTACT_EMAIL" default="" />
-                <field name="contrib_version" type="payzenmultilabel" label="VMPAYMENT_PAYZENMULTI_CONTRIB_VERSION" default="2.2.1" />
+                <field name="contrib_version" type="payzenmultilabel" label="VMPAYMENT_PAYZENMULTI_CONTRIB_VERSION" default="2.2.2" />
                 <field name="gateway_version" type="payzenmultilabel" label="VMPAYMENT_PAYZENMULTI_GATEWAY_VERSION" default="V2" />
                 <field name="documentation" type="payzenmultilabel" label="VMPAYMENT_PAYZENMULTI_DOC" default="" />
 
