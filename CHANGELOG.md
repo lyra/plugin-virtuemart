@@ -1,3 +1,7 @@
+2.2.3, 2022-05-11:
+- [multi] Bug fix: Payment in installments not working.
+- Minor code fixes.
+
 2.2.2, 2022-05-06:
 - Update list of supported payment means.
 

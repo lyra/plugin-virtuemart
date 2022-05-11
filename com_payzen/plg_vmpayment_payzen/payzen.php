@@ -201,7 +201,7 @@ class plgVMPaymentPayzen extends vmPSPlugin
         $available_languages = ! is_array($available_languages) ? $available_languages : (in_array('', $available_languages) ? '' : implode(';', $available_languages));
         $request->set('available_languages', $available_languages);
 
-        $request->set('contrib', 'VirtueMart_3.x_2.2.2/' . JVERSION . '_' . vmVersion::$RELEASE . '/' . PayzenApi::shortPhpVersion());
+        $request->set('contrib', 'VirtueMart_3.x_2.2.3/' . JVERSION . '_' . vmVersion::$RELEASE . '/' . PayzenApi::shortPhpVersion());
 
         // Set customer info.
         $usrBT = $order['details']['BT'];
@@ -250,6 +250,13 @@ class plgVMPaymentPayzen extends vmPSPlugin
         }
 
         $request->set('threeds_mpi', $threeds_mpi);
+
+        // Prepare payment in installments data.
+        if (strpos($this->method_identifier, 'multi') !== false) {
+            $amount = $request->get('amount');
+            $first = $method->first ? round(($method->first / 100) * $amount) : null;
+            $request->setMultiPayment($amount, $first, $method->count, $method->period);
+        }
 
         // Prepare data that should be stored in the database.
         $dbValues['order_number'] = $order['details']['BT']->order_number;
