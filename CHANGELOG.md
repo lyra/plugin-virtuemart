@@ -1,3 +1,6 @@
+2.2.4, 2022-08-23:
+- Compatibility with VirtueMart 4.x and PHP 8.x.
+
 2.2.3, 2022-05-11:
 - [multi] Bug fix: Payment in installments not working.
 - Minor code fixes.
