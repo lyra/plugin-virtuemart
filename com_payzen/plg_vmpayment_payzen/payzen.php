@@ -201,7 +201,7 @@ class plgVMPaymentPayzen extends vmPSPlugin
         $available_languages = ! is_array($available_languages) ? $available_languages : (in_array('', $available_languages) ? '' : implode(';', $available_languages));
         $request->set('available_languages', $available_languages);
 
-        $request->set('contrib', 'VirtueMart_3.x_2.2.3/' . JVERSION . '_' . vmVersion::$RELEASE . '/' . PayzenApi::shortPhpVersion());
+        $request->set('contrib', 'VirtueMart_3.x-4.x_2.2.4/' . JVERSION . '_' . vmVersion::$RELEASE . '/' . PayzenApi::shortPhpVersion());
 
         // Set customer info.
         $usrBT = $order['details']['BT'];
@@ -358,8 +358,8 @@ class plgVMPaymentPayzen extends vmPSPlugin
             return null;
         }
 
-        $order = VirtueMartModelOrders::getOrder($virtuemart_order_id);
-        $order_status_code = $order['items'][0]->order_status;
+        $order = $this->getOrder($virtuemart_order_id);
+        $order_status_code = ($order && ! empty($order['items'])) ? $order['items'][0]->order_status : null;
 
         $result = false;
 
@@ -504,8 +504,8 @@ class plgVMPaymentPayzen extends vmPSPlugin
             die($payzen_response->getOutputForGateway('auth_fail'));
         }
 
-        $order = VirtueMartModelOrders::getOrder($virtuemart_order_id);
-        $order_status_code = $order['items'][0]->order_status;
+        $order = $this->getOrder($virtuemart_order_id);
+        $order_status_code = ($order && ! empty($order['items'])) ? $order['items'][0]->order_status : null;
 
         // Order not processed yet.
         if ($order_status_code == 'P') {
@@ -804,5 +804,16 @@ class plgVMPaymentPayzen extends vmPSPlugin
     function plgVmDeclarePluginParamsPaymentVM3(&$data)
     {
         return $this->declarePluginParams('payment', $data);
+    }
+
+    /**
+     * @param $orderId string
+     * @return VirtueMartModelOrders|null
+     */
+    function getOrder($orderId)
+    {
+        $orderModel = VmModel::getModel('orders');
+
+        return $orderModel->getOrder($orderId);
     }
 }
