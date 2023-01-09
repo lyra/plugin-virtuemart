@@ -12,6 +12,8 @@ defined('JPATH_BASE') or die();
 
 jimport('joomla.form.formfield');
 
+use Lyranetwork\Payzen\Sdk\Form\Api as PayzenApi;
+
 /**
  * Renders a label element.
  */
@@ -51,10 +53,6 @@ class JFormFieldPayzenLabel extends JFormField
 
             $html = $docs;
         } elseif($this->fieldname == 'contact_email') {
-            if (! class_exists('PayzenApi')) {
-                require_once(rtrim(JPATH_ADMINISTRATOR, DS) . DS . 'components' . DS . 'com_payzen' . DS . 'classes' . DS . 'PayzenApi.php');
-            }
-
             $html = PayzenApi::formatSupportEmails('support@payzen.eu');
         }
 

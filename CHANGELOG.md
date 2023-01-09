@@ -1,3 +1,8 @@
+2.2.5, 2023-01-09:
+- Compatibility with Joomla 4.x and VirtueMart 4.x.
+- Update list of supported payment means.
+- Update list of supported currencies.
+
 2.2.4, 2022-08-23:
 - Compatibility with VirtueMart 4.x and PHP 8.x.
 

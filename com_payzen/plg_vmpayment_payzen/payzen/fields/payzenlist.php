@@ -12,6 +12,8 @@ defined('JPATH_BASE') or die();
 
 JFormHelper::loadFieldClass('filelist');
 
+use Lyranetwork\Payzen\Sdk\Form\Api as PayzenApi;
+
 /**
  * Renders an item select element (with multiple choice possibility).
  */
@@ -22,10 +24,6 @@ class JFormFieldPayzenList extends JFormFieldList
 
     function getOptions()
     {
-        if (! class_exists('PayzenApi')) {
-            require_once(rtrim(JPATH_ADMINISTRATOR, DS) . DS . 'components' . DS . 'com_payzen' . DS . 'classes' . DS . 'PayzenApi.php');
-        }
-
         if ($this->fieldname == 'payment_cards') {
             $payzen_options = $this->_getAvailableCards();
         } else {

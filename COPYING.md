@@ -1,4 +1,4 @@
-Copyright © 2015-2022 Lyra Network.
+Copyright © 2015-2023 Lyra Network.
 
 PayZen for VirtueMart is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
