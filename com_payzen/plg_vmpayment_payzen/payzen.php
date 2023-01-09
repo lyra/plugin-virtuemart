@@ -14,7 +14,13 @@ if (! class_exists('vmPSPlugin')) {
     require(JPATH_VM_PLUGINS . DS . 'vmpsplugin.php');
 }
 
-class plgVMPaymentPayzen extends vmPSPlugin
+require_once(rtrim(JPATH_ADMINISTRATOR, DS) . DS . 'components' . DS . 'com_payzen' . DS . 'classes' . DS . 'sdk-autoload.php');
+
+use Lyranetwork\Payzen\Sdk\Form\Api as PayzenApi;
+use Lyranetwork\Payzen\Sdk\Form\Request as PayzenRequest;
+use Lyranetwork\Payzen\Sdk\Form\Response as PayzenResponse;
+
+abstract class PaymentPayzen extends vmPSPlugin
 {
     // Instance of class.
     public static $_this = false;
@@ -99,12 +105,12 @@ class plgVMPaymentPayzen extends vmPSPlugin
      * @param object $payment payment parameters object
      * @return bool true if conditions verified
      */
-    function checkConditions($cart, $method, $cart_prices)
+    function checkConditions($cart, $activeMethod, $cart_prices)
     {
-        $this->convert($method);
+        $this->convert($activeMethod);
         $amount = $cart_prices['salesPrice'];
-        return (($amount >= $method->min_amount && $amount <= $method->max_amount)
-            || ($amount >= $method->min_amount && empty($method->max_amount)));
+        return (($amount >= $activeMethod->min_amount && $amount <= $activeMethod->max_amount)
+            || ($amount >= $activeMethod->min_amount && empty($activeMethod->max_amount)));
     }
 
     function convert($method)
@@ -136,10 +142,6 @@ class plgVMPaymentPayzen extends vmPSPlugin
 
         $this->logInfo('plgVmConfirmedOrder -- order number: ' . $order['details']['BT']->order_number, 'message');
 
-        if (! class_exists('PayzenRequest')) {
-            require_once(rtrim(JPATH_ADMINISTRATOR, DS) . DS . 'components' . DS . 'com_payzen' . DS . 'classes' . DS . 'PayzenRequest.php');
-        }
-
         $request = new PayzenRequest();
 
         // Set configuration parameters.
@@ -152,18 +154,24 @@ class plgVMPaymentPayzen extends vmPSPlugin
             $request->set($name, $method->$name);
         }
 
+        if (class_exists('JRequest')) {
+            $itemId = JRequest::getInt('Itemid');
+        } else {
+            $itemId = vRequest::getInt('Itemid'); // For Joomla 4.x and higher.
+        }
+
         // Set urls.
         $url_return = JROUTE::_(JURI::root() . 'index.php?option=com_virtuemart&view=pluginresponse&task=pluginresponsereceived');
         $uri = JURI::getInstance($url_return);
         $uri->setVar('pm', $order['details']['BT']->virtuemart_paymentmethod_id);
-        $uri->setVar('Itemid', JRequest::getInt('Itemid'));
+        $uri->setVar('Itemid', $itemId);
         $request->set('url_return', $uri->toString());
 
         $url_cancel = JROUTE::_(JURI::root() . 'index.php?option=com_virtuemart&view=pluginresponse&task=pluginUserPaymentCancel');
         $uri = JURI::getInstance($url_cancel);
         $uri->setVar('on', $order['details']['BT']->order_number);
         $uri->setVar('pm', $order['details']['BT']->virtuemart_paymentmethod_id);
-        $uri->setVar('Itemid', JRequest::getInt('Itemid'));
+        $uri->setVar('Itemid', $itemId);
         $request->set('url_cancel', $uri->toString());
 
         // Set the language code.
@@ -201,7 +209,7 @@ class plgVMPaymentPayzen extends vmPSPlugin
         $available_languages = ! is_array($available_languages) ? $available_languages : (in_array('', $available_languages) ? '' : implode(';', $available_languages));
         $request->set('available_languages', $available_languages);
 
-        $request->set('contrib', 'VirtueMart_3.x-4.x_2.2.4/' . JVERSION . '_' . vmVersion::$RELEASE . '/' . PayzenApi::shortPhpVersion());
+        $request->set('contrib', 'VirtueMart_3.x-4.x_2.2.5/' . JVERSION . '_' . vmVersion::$RELEASE . '/' . PayzenApi::shortPhpVersion());
 
         // Set customer info.
         $usrBT = $order['details']['BT'];
@@ -310,7 +318,14 @@ class plgVMPaymentPayzen extends vmPSPlugin
         }
 
         // The payment itself should send the parameter needed.
-        $virtuemart_paymentmethod_id = JRequest::getInt('pm', 0);
+        if (class_exists('JRequest')) {
+            $virtuemart_paymentmethod_id = JRequest::getInt('pm', 0);
+            $data = JRequest::get('request', 2);
+        } else {
+            $virtuemart_paymentmethod_id = vRequest::getInt('pm', 0); // For Joomla 4.x and higher.
+            $data = $_REQUEST;
+        }
+
         if (! ($method = $this->getVmPluginMethod($virtuemart_paymentmethod_id))) {
             return null; // Another method was selected, do nothing.
         }
@@ -321,13 +336,6 @@ class plgVMPaymentPayzen extends vmPSPlugin
 
         $this->_debug = $method->debug; // Enable debug.
         $this->logInfo('plgVmOnPaymentResponseReceived -- user returned back from ' . $this->_name, 'message');
-
-        $data = JRequest::get('request', 2);
-
-        // Load API.
-        if (! class_exists('PayzenResponse')) {
-            require_once(rtrim(JPATH_ADMINISTRATOR, DS) . DS . 'components' . DS . 'com_payzen' . DS . 'classes' . DS . 'PayzenResponse.php');
-        }
 
         $payzen_response = new PayzenResponse(
             $data,
@@ -392,9 +400,16 @@ class plgVMPaymentPayzen extends vmPSPlugin
             }
 
             $this->managePaymentResponse($virtuemart_order_id, $payzen_response, $new_status);
-        } elseif (($method->ctx_mode === 'TEST') && $this->plugin_features['prodfaq']) {
-            // TEST mode and other site than ALATAK: server URL is correctly configured, just show going to prod info.
-            vmWarn('<div style="margin-bottom: 15px;">' . JText::_('VMPAYMENT_' . $this->_name . '_SHOP_TO_PROD_INFO') . '</div>', '');
+        } else {
+            if (($method->ctx_mode === 'TEST') && $this->plugin_features['prodfaq']) {
+                // TEST mode and other site than ALATAK: server URL is correctly configured, just show going to prod info.
+                vmWarn('<div style="margin-bottom: 15px;">' . JText::_('VMPAYMENT_' . $this->_name . '_SHOP_TO_PROD_INFO') . '</div>', '');
+            }
+
+            if ($payzen_response->isAcceptedPayment()) {
+                // Empty cart for a successful order.
+                $this->emptyCart();
+            }
         }
 
         return $result;
@@ -408,7 +423,14 @@ class plgVMPaymentPayzen extends vmPSPlugin
     function plgVmOnUserPaymentCancel()
     {
         // The payment itself should send the parameter needed.
-        $virtuemart_paymentmethod_id = JRequest::getInt('pm', 0);
+        if (class_exists('JRequest')) {
+            $virtuemart_paymentmethod_id = JRequest::getInt('pm', 0);
+            $order_number = JRequest::getString('on');
+        } else {
+            $virtuemart_paymentmethod_id = vRequest::getInt('pm', 0); // For Joomla 4.x and higher.
+            $order_number = vRequest::getString('on');
+        }
+
         if (! ($method = $this->getVmPluginMethod($virtuemart_paymentmethod_id))) {
             return null; // Another method was selected, do nothing.
         }
@@ -417,7 +439,6 @@ class plgVMPaymentPayzen extends vmPSPlugin
             return false;
         }
 
-        $order_number = JRequest::getString('on');
         if (! $order_number) {
             return false;
         }
@@ -456,7 +477,12 @@ class plgVMPaymentPayzen extends vmPSPlugin
     function plgVmOnPaymentNotification()
     {
         // Platform params and payment data.
-        $data = JRequest::get('post', 2);
+        if (class_exists('JRequest')) {
+            $data = JRequest::get('post', 2);
+        } else {
+            $data = $_POST; // For Joomla 4.x and higher.
+        }
+
         if (! key_exists('vads_order_id', $data) || ! $data['vads_order_id']) {
             $this->logInfo('plgVmOnPaymentNotification -- another method was selected, do nothing.', 'message');
             return null; // Another method was selected, do nothing.
@@ -483,11 +509,6 @@ class plgVMPaymentPayzen extends vmPSPlugin
         $this->_debug = $method->debug;
         $custom = $this->_name . '_custom';
         $session_id = $payment_data->$custom;
-
-        // Load API.
-        if (! class_exists('PayzenResponse')) {
-            require(rtrim(JPATH_ADMINISTRATOR, DS) . DS . 'components' . DS . 'com_payzen' . DS . 'classes' . DS . 'PayzenResponse.php');
-        }
 
         $payzen_response = new PayzenResponse(
             $data,
@@ -747,6 +768,8 @@ class plgVMPaymentPayzen extends vmPSPlugin
      * @cart: VirtueMartCart the current cart
      * @cart_prices: array the new cart prices
      * @return null if the method was not selected, false if the shiiping rate is not valid any more, true otherwise
+     *
+     * VirtueMart 3.x
      */
     public function plgVmonSelectedCalculatePricePayment(VirtueMartCart $cart, array &$cart_prices, &$cart_prices_name)
     {
@@ -815,5 +838,32 @@ class plgVMPaymentPayzen extends vmPSPlugin
         $orderModel = VmModel::getModel('orders');
 
         return $orderModel->getOrder($orderId);
+    }
+}
+
+if (version_compare(vmVersion::$RELEASE, '4.0.0', '>=')) {
+    class plgVMPaymentPayzen extends PaymentPayzen
+    {
+        /**
+         * plgVmonSelectedCalculatePricePayment
+         * Calculate the price(value, tax_id) of the selected method
+         * It is called by the calculator
+         * This function does NOT to be reimplemented. If not reimplemented, then the default values from this function are taken.
+         *
+         * @author Valerie Isaksen
+         * @cart: VirtueMartCart the current cart
+         * @cart_prices: array the new cart prices
+         * @return null if the method was not selected, false if the shiiping rate is not valid any more, true otherwise
+         *
+         * VirtueMart 4.x
+         */
+        public function plgVmOnSelectedCalculatePricePayment(VirtueMartCart $cart, array &$cart_prices, &$cart_prices_name)
+        {
+            return $this->onSelectedCalculatePrice($cart, $cart_prices, $cart_prices_name);
+        }
+    }
+} else {
+    class plgVMPaymentPayzen extends PaymentPayzen
+    {
     }
 }
