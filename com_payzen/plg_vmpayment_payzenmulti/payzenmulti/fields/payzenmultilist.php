@@ -14,6 +14,8 @@ if (! class_exists('JFormFieldPayzenList')) {
     require_once(rtrim(JPATH_PLUGINS, DS) . DS . 'vmpayment' . DS . 'payzen' . DS . 'payzen'. DS . 'fields' . DS . 'payzenlist.php');
 }
 
+use Lyranetwork\Payzen\Sdk\Form\Api as PayzenApi;
+
 /**
  * Renders an item select element (with multiple choice possibility).
  */
