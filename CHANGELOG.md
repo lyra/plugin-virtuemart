@@ -1,3 +1,6 @@
+2.2.6, 2023-05-31:
+- Improve module documentation management field.
+
 2.2.5, 2023-01-09:
 - Compatibility with Joomla 4.x and VirtueMart 4.x.
 - Update list of supported payment means.

@@ -27,28 +27,17 @@ class JFormFieldPayzenLabel extends JFormField
 
         if ($this->fieldname == 'documentation') {
             // Get documentation links.
+            $languages = array(
+                'fr' => 'Français',
+                'en' => 'English',
+                'es' => 'Español',
+                'pt' => 'Português'
+                // Complete when other languages are managed.
+            );
+
             $docs = '';
-            $filenames = glob(rtrim(JPATH_ADMINISTRATOR, DS) . DS . 'components' . DS . 'com_payzen' . DS . 'installation_doc/${doc.pattern}');
-
-            if (! empty($filenames)) {
-                $languages = array(
-                    'fr' => 'Français',
-                    'en' => 'English',
-                    'es' => 'Español'
-                     // Complete when other languages are managed.
-                );
-
-                $first = true;
-                foreach ($filenames as $filename) {
-                    $base_filename = basename($filename, '.pdf');
-                    $lang = substr($base_filename, -2); // Extract language code.
-
-                    $docs .= $first ? '<a style="' : '<a style="margin-left: 10px;';
-                    $docs .= ' text-decoration: none; text-transform: uppercase; color: red;" href="' . JURI::root() .
-                        'administrator/components/com_payzen/installation_doc/' .
-                        $base_filename . '.pdf" target="_blank">' . $languages[$lang] . '</a>';
-                    $first = false;
-                }
+            foreach (PayzenApi::getOnlineDocUri() as $lang => $docUri) {
+                $docs .= '<a style="margin-left: 10px; text-decoration: none; text-transform: uppercase; color: red;" href="' . $docUri . 'virtuemart3/sitemap.html" target="_blank">' . $languages[$lang] . '</a>';
             }
 
             $html = $docs;
@@ -57,18 +46,5 @@ class JFormFieldPayzenLabel extends JFormField
         }
 
         return '<label>' . $html . '</label>';
-    }
-
-    protected function getLayoutData()
-    {
-        if ($this->fieldname == 'documentation') {
-            $filenames = glob(rtrim(JPATH_ADMINISTRATOR, DS) . DS . 'components' . DS . 'com_payzen' . DS . 'installation_doc/${doc.pattern}');
-
-            if (empty($filenames)) {
-                return '';
-            }
-        }
-
-        return parent::getLayoutData();
     }
 }
