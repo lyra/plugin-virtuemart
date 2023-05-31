@@ -11,7 +11,8 @@
 -->
 
 <extension type="component" version="2.5" method="upgrade">
-    <name>payzen</name>
+    <name><![CDATA[PayZen]]></name>
+    <element>com_payzen</element>
     <creationDate>June 24 2021</creationDate>
     <author>Lyra Network</author>
     <authorUrl>https://www.lyra.com</authorUrl>
@@ -19,7 +20,7 @@
     <authorUrl>https://www.lyra.com</authorUrl>
     <copyright>Copyright (C) 2015 - 2023 Lyra Network. All rights reserved.</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-    <version>2.2.5</version>
+    <version>2.2.6</version>
     <description><![CDATA[This component enables you to setup PayZen credit card payment in one time and payment in installments plugins for VirtueMart.]]></description>
 
     <scriptfile>script.install.php</scriptfile>
@@ -28,7 +29,6 @@
             <folder>plg_vmpayment_payzen</folder>
             <folder>plg_vmpayment_payzenmulti</folder>
             <folder>classes</folder>
-            <folder>installation_doc</folder>
             <filename>CHANGELOG.md</filename>
             <filename>COPYING.md</filename>
             <filename>README.md</filename>
