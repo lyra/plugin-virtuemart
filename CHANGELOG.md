@@ -1,3 +1,7 @@
+2.2.7, 2024-01-16:
+- Set return mode to POST by default.
+- Bug fix: Fix SDK autoload.
+
 2.2.6, 2023-05-31:
 - Improve module documentation management field.
 

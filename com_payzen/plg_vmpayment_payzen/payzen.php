@@ -209,7 +209,7 @@ abstract class PaymentPayzen extends vmPSPlugin
         $available_languages = ! is_array($available_languages) ? $available_languages : (in_array('', $available_languages) ? '' : implode(';', $available_languages));
         $request->set('available_languages', $available_languages);
 
-        $request->set('contrib', 'VirtueMart_3.x-4.x_2.2.6/' . JVERSION . '_' . vmVersion::$RELEASE . '/' . PayzenApi::shortPhpVersion());
+        $request->set('contrib', 'VirtueMart_3.x-4.x_2.2.7/' . JVERSION . '_' . vmVersion::$RELEASE . '/' . PayzenApi::shortPhpVersion());
 
         // Set customer info.
         $usrBT = $order['details']['BT'];
