@@ -50,12 +50,3 @@ if (! class_exists('com_payzenInstallerScript')) {
         }
     }
 }
-
-// Joomla 1.5.
-if (function_exists('com_install')) {
-    function com_install()
-    {
-        $installClass = new com_payzenInstallerScript();
-        $installClass->install();
-    }
-}

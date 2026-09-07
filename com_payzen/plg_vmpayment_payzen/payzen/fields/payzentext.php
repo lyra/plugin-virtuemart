@@ -10,7 +10,7 @@
 
 defined('JPATH_BASE') or die();
 
-jimport('joomla.form.formfield');
+JFormHelper::loadFieldClass('text');
 
 /**
  * Renders a Text element.

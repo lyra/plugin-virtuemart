@@ -10,18 +10,18 @@
 */
 -->
 
-<extension version="2.5" type="plugin" group="vmpayment" method="upgrade">
+<extension version="3.0" type="plugin" group="vmpayment" method="upgrade">
     <name><![CDATA[VM Payment - PayZen payment in installments]]></name>
     <creationDate>June 24 2021</creationDate>
     <author>Lyra Network</author>
     <authorUrl>https://www.lyra.com</authorUrl>
-    <authorEmail><![CDATA[support@payzen.eu]]></authorEmail>
+    <authorEmail><![CDATA[https://payzen.io/fr-FR/support/]]></authorEmail>
     <authorUrl>https://www.lyra.com</authorUrl>
-    <copyright>Copyright (C) 2015 - 2024 Lyra Network. All rights reserved.</copyright>
+    <copyright>Copyright (C) 2015 - 2026 Lyra Network. All rights reserved.</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-    <version>2.2.7</version>
+    <version>2.3.0</version>
     <description>
-        <![CDATA[This plugin enables you to setup PayZen payment in installements system.]]>
+        <![CDATA[This plugin enables you to setup PayZen payment in installments system.]]>
     </description>
 
     <files>
@@ -34,6 +34,7 @@
         <language tag="fr-FR">language/fr-FR.plg_vmpayment_payzenmulti.ini</language>
         <language tag="de-DE">language/de-DE.plg_vmpayment_payzenmulti.ini</language>
         <language tag="es-ES">language/es-ES.plg_vmpayment_payzenmulti.ini</language>
+        <language tag="pt-BR">language/pt-BR.plg_vmpayment_payzenmulti.ini</language>
     </languages>
 
     <vmconfig>
@@ -45,8 +46,7 @@
 
                 <field name="developed_by" type="payzenmultilabel" label="VMPAYMENT_PAYZENMULTI_DEVELOPED_BY" default="&lt;a href=&quot;https://www.lyra.com/&quot; target=&quot;_blank&quot;&gt;Lyra Network&lt;/a&gt;" />
                 <field name="contact_email" type="payzenmultilabel" label="VMPAYMENT_PAYZENMULTI_CONTACT_EMAIL" default="" />
-                <field name="contrib_version" type="payzenmultilabel" label="VMPAYMENT_PAYZENMULTI_CONTRIB_VERSION" default="2.2.7" />
-                <field name="gateway_version" type="payzenmultilabel" label="VMPAYMENT_PAYZENMULTI_GATEWAY_VERSION" default="V2" />
+                <field name="contrib_version" type="payzenmultilabel" label="VMPAYMENT_PAYZENMULTI_CONTRIB_VERSION" default="2.3.0" />
                 <field name="documentation" type="payzenmultilabel" label="VMPAYMENT_PAYZENMULTI_DOC" default="" />
 
                 <field type="spacer" default="" level="level1" />
@@ -79,8 +79,7 @@
                     <option value="SHA-256">HMAC-SHA-256</option>
                 </field>
                 <field name="silent_url" type="payzenmultiurl" label="VMPAYMENT_PAYZENMULTI_URL_CHECK" default="index.php?option=com_virtuemart&amp;view=pluginresponse&amp;task=pluginnotification&amp;tmpl=component" description="VMPAYMENT_PAYZENMULTI_URL_CHECK_DESC" editable="false" />
-                <field name="platform_url" type="text" size="50" default="https://secure.payzen.eu/vads-payment/" label="VMPAYMENT_PAYZENMULTI_PLATFORM_URL" description="VMPAYMENT_PAYZENMULTI_PLATFORM_URL_DESC" />
-                
+
                 <field type="spacer" default="" level="level1" />
                 <field class="level1"  type="vmtitle" default="VMPAYMENT_PAYZENMULTI_PAYMENT_PAGE" />
 

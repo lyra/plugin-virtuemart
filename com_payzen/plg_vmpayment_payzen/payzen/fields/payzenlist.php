@@ -39,6 +39,7 @@ class JFormFieldPayzenList extends JFormFieldList
         }
 
         $options = array_merge(parent::getOptions(), $options);
+
         return $options;
     }
 
