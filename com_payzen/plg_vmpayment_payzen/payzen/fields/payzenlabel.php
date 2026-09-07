@@ -10,7 +10,7 @@
 
 defined('JPATH_BASE') or die();
 
-jimport('joomla.form.formfield');
+JFormHelper::loadFieldClass('filelist');
 
 use Lyranetwork\Payzen\Sdk\Form\Api as PayzenApi;
 
@@ -37,12 +37,13 @@ class JFormFieldPayzenLabel extends JFormField
 
             $docs = '';
             foreach (PayzenApi::getOnlineDocUri() as $lang => $docUri) {
-                $docs .= '<a style="margin-left: 10px; text-decoration: none; text-transform: uppercase; color: red;" href="' . $docUri . 'virtuemart3/sitemap.html" target="_blank">' . $languages[$lang] . '</a>';
+                $label = $languages[$lang] ?? strtoupper((string) $lang);
+                $docs .= '<a style="margin-left: 10px; text-decoration: none; text-transform: uppercase;" href="' . $docUri . 'virtuemart3/sitemap.html" target="_blank">' . $label . '</a>';
             }
 
             $html = $docs;
         } elseif($this->fieldname == 'contact_email') {
-            $html = PayzenApi::formatSupportEmails('support@payzen.eu');
+            $html = PayzenApi::formatSupportEmails('https://payzen.io/fr-FR/support/', JText::_('VMPAYMENT_PAYZEN_CONTACT_CLICK_HERE'));
         }
 
         return '<label>' . $html . '</label>';

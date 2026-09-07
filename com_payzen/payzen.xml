@@ -16,12 +16,12 @@
     <creationDate>June 24 2021</creationDate>
     <author>Lyra Network</author>
     <authorUrl>https://www.lyra.com</authorUrl>
-    <authorEmail><![CDATA[support@payzen.eu]]></authorEmail>
+    <authorEmail><![CDATA[https://payzen.io/fr-FR/support/]]></authorEmail>
     <authorUrl>https://www.lyra.com</authorUrl>
-    <copyright>Copyright (C) 2015 - 2024 Lyra Network. All rights reserved.</copyright>
+    <copyright>Copyright (C) 2015 - 2026 Lyra Network. All rights reserved.</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-    <version>2.2.7</version>
-    <description><![CDATA[This component enables you to setup PayZen credit card payment in one time and payment in installments plugins for VirtueMart.]]></description>
+    <version>2.3.0</version>
+    <description><![CDATA[This component enables you to setup PayZen payment in one time and payment in installments plugins for VirtueMart.]]></description>
 
     <scriptfile>script.install.php</scriptfile>
     <administration>

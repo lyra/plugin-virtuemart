@@ -1,3 +1,14 @@
+2.3.0, 2026-09-07:
+- Compatibility with Joomla 5.x.
+- Compatibility with PHP 8.x.
+- Remove the possibility to configure URL for payment page.
+- Update list of supported payment means.
+- Update list of supported currencies.
+- Improve logging of payment process.
+- Improve module documentation.
+- Added new transaction statuses.
+- Added Portuguese translation.
+
 2.2.7, 2024-01-16:
 - Set return mode to POST by default.
 - Bug fix: Fix SDK autoload.
